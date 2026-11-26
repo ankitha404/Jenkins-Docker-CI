@@ -18,6 +18,19 @@ pipeline {
                 bat 'C:\\Users\\STUDENT\\AppData\\Local\\Programs\\Python\\Python313\\python.exe app.py'
             }
         }
+        stage('Docker Verification') {
+    steps {
+        bat 'where docker'
+        bat 'docker --version'
+        bat 'docker ps'
+    }
+}
+
+stage('3. Build & Tag Docker Image') {
+    steps {
+        bat 'docker build -t localhost:5000/abh-app:latest .'
+    }
+}
 
         stage('3. Build & Tag Docker Image') {
             steps {
