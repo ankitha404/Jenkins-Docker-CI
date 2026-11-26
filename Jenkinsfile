@@ -1,3 +1,4 @@
+groovy
 pipeline {
     agent any
 
@@ -18,27 +19,22 @@ pipeline {
                 bat 'C:\\Users\\STUDENT\\AppData\\Local\\Programs\\Python\\Python313\\python.exe app.py'
             }
         }
-        stage('Docker Verification') {
-    steps {
-        bat 'where docker'
-        bat 'docker --version'
-        bat 'docker ps'
-    }
-}
 
-stage('3. Build & Tag Docker Image') {
-    steps {
-        bat 'docker build -t localhost:5000/abh-app:latest .'
-    }
-}
+        stage('3. Docker Verification') {
+            steps {
+                bat 'where docker'
+                bat 'docker --version'
+                bat 'docker ps'
+            }
+        }
 
-        stage('3. Build & Tag Docker Image') {
+        stage('4. Build & Tag Docker Image') {
             steps {
                 bat "docker build -t ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} -t ${REGISTRY}/${IMAGE_NAME}:latest ."
             }
         }
 
-        stage('4. Push Image to Registry') {
+        stage('5. Push Image to Registry') {
             steps {
                 bat "docker push ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}"
                 bat "docker push ${REGISTRY}/${IMAGE_NAME}:latest"
